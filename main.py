@@ -495,3 +495,32 @@ rentVehical()
 #         # đăng nhập user
 #         mainMenuClient()
 # Main()
+def get_vehical_data():
+    id = input("Nhập ID xe cần xem thông tin: ")
+    if not id.isdigit():
+        print("-> ID phải là một số nguyên. Vui lòng nhập lại!")
+        return
+    found = False
+    for filename in os.listdir('data/vehical/'):
+        with open('data/vehical/'+ '/' + filename) as f:
+            try:
+                data = json.load(f)
+            except json.decoder.JSONDecodeError:
+                continue
+            if data['vehical'][0]['id'] == int(id):
+                found = True
+                break
+
+    if found:
+        print("- Chi tiết xe có mã",id, "là: ")
+        print(" + Tên xe:", data['vehical'][0]['name'])
+        if data['vehical'][0]['status'] == "1":
+            print(" + Tình trạng: Còn hàng")
+        else:
+            print(" + Tình trạng: Hết hàng")
+        print(" + Giá tiền:", data['vehical'][0]['cost'])
+        print(" + Số lượng:", data['vehical'][0]['quantity'])
+        print(" + Thời gian nhập: ", data['vehical'][0]['time'])
+    else:
+        print("-> Không tìm thấy xe có mã!", id)
+# get_vehical_data()
